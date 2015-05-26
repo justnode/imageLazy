@@ -37,11 +37,16 @@
      * @return {[type]}            [description]
      */
     function bindEvent(elems,$container,options){
-        $.each(['scroll','reset'],function(index,value){
+        $.each(['scroll','resize'],function(index,value){
             $container.on(value,function(){
                 initImg(elems,$container,options)
             })
         })
+    }
+    function removeEvent($container){
+        $.each(['scroll','resize'],function(index,value){
+            $container.off(value);
+        });
     }
     /**
      * 判断图片是否在可视区域内,如果在则调用加载函数
@@ -70,6 +75,9 @@
                 $elem.removeData(imgDataName);
                 elems.splice(i--,1);
             }
+        }
+        if(!elems.length){
+            removeEvent($container);
         }
     }
     $.fn.imgLoader = function(options){
